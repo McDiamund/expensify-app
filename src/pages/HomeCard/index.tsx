@@ -8,7 +8,6 @@ import CursorExpansion from '@/components/common/CursorExpansion';
 import { motion } from 'motion/react';
 import Answers from '../Answers';
 
-// Font cycling animation component
 const AnimatedTitle = () => {
   const [currentFontIndex, setCurrentFontIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -22,7 +21,7 @@ const AnimatedTitle = () => {
     'Impact, sans-serif',
     'Comic Sans MS, cursive',
     'Trebuchet MS, sans-serif',
-    'Outfit, sans-serif', // This will be the pause font
+    'Outfit, sans-serif', // This will be the main font
     'Lucida Console, monospace',
     'Palatino, serif',
     'Garamond, serif'
@@ -44,7 +43,7 @@ const AnimatedTitle = () => {
           
           return nextIndex;
         });
-      }, 90); // Change font every 200ms
+      }, 90); // Change font every 90ms
     }
 
     return () => {
@@ -69,21 +68,19 @@ const AnimatedTitle = () => {
 const HomeCard = () => {
   const [isExpanding, setIsExpanding] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [currentPage, setCurrentPage] = useState<'home' | 'about'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'answers'>('home');
 
   const handleSeeMoreClick = (e: React.MouseEvent) => {
-    // Get cursor position from the event
     setCursorPosition({ x: e.clientX, y: e.clientY });
     setIsExpanding(true);
   };
 
   const handleExpansionComplete = () => {
-    // Navigate to About page
-    setCurrentPage('about');
+    setCurrentPage('answers');
     setIsExpanding(false);
   };
 
-  if (currentPage === 'about') {
+  if (currentPage === 'answers') {
     return <Answers />;
   }
 

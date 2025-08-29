@@ -38,7 +38,7 @@
         min-width: 100%;
         width: 100%;
         min-height: 100vh;
-        height: auto;
+        height: 200px;
         background-color: #fff;
         overflow-y: visible;
     }

@@ -145,4 +145,19 @@
     border-color: rgba(255, 255, 255, 0.4);
 }
 
-
+/* Mobile/Tablet styles for screens 950px and below */
+@media (max-width: 950px) {
+    .container {
+        align-items: stretch;
+    }
+    
+    .paper {
+        width: 100%;
+        min-height: 100vh;
+        max-width: none;
+        min-width: none;
+        aspect-ratio: none;
+        margin-top: 300px;
+        border: none;
+    }
+}

@@ -1,10 +1,8 @@
 import { useRef, useCallback, useState, useEffect } from "react";
 import styles from './Answers.module.css';
-import Word from "../Word";
 import PortfolioSection from "./PortfolioSection";
 import ExperienceSection from "./ExperienceSection";
 import GoalsSection from "./GoalsSection";
-import { useNavigate } from "react-router";
 
 const Answers = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -15,9 +13,8 @@ const Answers = () => {
     const [startY, setStartY] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [scrollTop, setScrollTop] = useState(0);
-    const [showVerticalPage, setShowVerticalPage] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const navigate = useNavigate();
+
     // Detect if we're in mobile mode (screen width <= 950px)
     useEffect(() => {
       const checkScreenSize = () => {
@@ -30,45 +27,19 @@ const Answers = () => {
       return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
-    // Scroll to top when vertical page is shown
-    useEffect(() => {
-      if (showVerticalPage) {
-        window.scrollTo(0, 0);
-        navigate('/word');
-      }
-    }, [showVerticalPage]);
-
     const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
       if (!scrollContainerRef.current) return;
 
       const container = scrollContainerRef.current;
 
       if (isMobile) {
-        // Mobile: vertical scrolling behavior
-        const scrollTop = container.scrollTop;
-        const containerHeight = container.clientHeight;
-        const scrollHeight = container.scrollHeight;
-        
-        // If we're at or very close to the end (last section), show vertical page
-        if (scrollTop + containerHeight >= scrollHeight - 10) {
-          setShowVerticalPage(true);
-          return;
-        }
-
-        // Allow natural vertical scrolling on mobile
+        // Mobile: vertical scrolling behavior - allow natural scrolling
         return;
       } else {
-        // Desktop: horizontal scrolling behavior (existing logic)
+        // Desktop: horizontal scrolling behavior
         const scrollLeft = container.scrollLeft;
         const containerWidth = container.clientWidth;
-        const scrollWidth = container.scrollWidth;
         
-        // If we're at or very close to the end (last section), show vertical page
-        if (scrollLeft + containerWidth >= scrollWidth - 10) {
-          setShowVerticalPage(true);
-          return;
-        }
-
         // Convert vertical scroll to horizontal movement
         e.preventDefault();
         
@@ -160,11 +131,6 @@ const Answers = () => {
       // Restore cursor
       document.body.style.cursor = '';
     }, []);
-
-    // If showing vertical page, render the vertical scrolling version
-    if (showVerticalPage) {
-      return <Word />
-    }
   
     return (
         <div 
@@ -176,13 +142,8 @@ const Answers = () => {
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseLeave}
         >
-          {/* Page 1: Personal Introduction */}
           <PortfolioSection />
-  
-          {/* Page 2: Skills & Technologies */}
           <ExperienceSection /> 
-  
-          {/* Page 3: Experience & Projects - This will trigger the vertical page */}
           <GoalsSection />
         </div>
     );

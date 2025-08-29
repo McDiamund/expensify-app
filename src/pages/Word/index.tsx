@@ -1,9 +1,11 @@
 import styles from './Word.module.css'
 import wordHeader from '@/assets/images/word-header.png'
 import wordFooter from '@/assets/images/word-footer.png'
+import mwordHeader from '@/assets/images/mword-header.jpg'
+import mwordFooter from '@/assets/images/mword-footer.jpg'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router'
 import { motion } from 'motion/react'
+import { useNavigate } from 'react-router'
 
 // You can easily change this text by modifying the content below
 const TYPING_TEXT = `GOALS
@@ -49,26 +51,37 @@ const TypingEffect = ({ text, speed = 50 }: { text: string; speed?: number }) =>
 }
 
 const Word = () => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 950)
     const navigate = useNavigate()
-    const [scrollProgress, setScrollProgress] = useState(0)
+
+    useEffect(() => {
+        // Scroll to top when component mounts
+        window.scrollTo(0, 0)
+        
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 950)
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY
             const docHeight = document.documentElement.scrollHeight - window.innerHeight
             const progress = (scrollTop / docHeight) * 100
+  
+            const scrollThreshold = 60
             
-            setScrollProgress(progress)
-            
-            // Navigate to BSOD when scroll reaches 60%
-            if (progress >= 60) {
+            if (progress >= scrollThreshold) {
                 navigate('/bsod')
             }
         }
 
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
-    }, [navigate])
+    }, [navigate, isMobile])
 
     return (
       <motion.div 
@@ -77,21 +90,11 @@ const Word = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <img src={wordHeader} alt="wordHeader" className={styles.wordHeader} />
+        <img src={isMobile ? mwordHeader : wordHeader} alt="wordHeader" className={styles.wordHeader} />
         <div className={styles.paper}>
           <TypingEffect text={TYPING_TEXT} speed={22} />
         </div>
-        <img src={wordFooter} alt="wordPages" className={styles.wordFooter} />
-        
-        {/* Scroll progress indicator */}
-        {/* <motion.div 
-          className={styles.scrollProgress}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          {Math.round(scrollProgress)}%
-        </motion.div> */}
+        <img src={isMobile ? mwordFooter : wordFooter} alt="wordPages" className={styles.wordFooter} />
       </motion.div>
       );
 }

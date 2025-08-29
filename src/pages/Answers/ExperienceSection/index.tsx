@@ -1,8 +1,9 @@
 import styles from './ExperienceSection.module.css'
 import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import { useEffect, useState } from 'react'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -15,6 +16,7 @@ import note from '@/assets/images/note.jpg'
 const ExperienceSection = () => {
   const [projectBarColors, setProjectBarColors] = useState<string[]>([])
   const [open, setOpen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<{
     name: string;
     images: string[];
@@ -32,28 +34,38 @@ const ExperienceSection = () => {
     const colors = [
       `rgb(184, 151, 100)`,  // Golden yellow
       `rgb(100, 168, 179)`,  // Teal blue  
-      `rgb(179, 108, 99)`,  // Red-orange (coral)
+      `rgb(179, 108, 99)`,  // Red-orange 
       `rgb(149, 104, 165)`, // Purple
     ]
     setProjectBarColors(colors)
+
+    // Check screen size for fullscreen dialog
+    const checkScreenSize = () => {
+      setIsFullScreen(window.innerWidth <= 768)
+    }
+
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+
+    return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
 
   return (
     <div className={styles.container}>
-      <Box className={styles.contentImage} />
-      <Box className={styles.content}>
-        <Typography variant="h1" sx={{ fontSize: '80px', marginBottom: '30px' }} className={styles.homeCardTitle}>
+      <div className={styles.contentImage} />
+      <div className={styles.content}>
+        <Typography variant="h1" className={styles.homeCardTitle}>
           Experience
         </Typography>
         <div className={styles.contentWrapper}>
           <div className={styles.textContent}>
-            <Typography variant="body1" sx={{ fontSize: '18px', lineHeight: 1.6, marginBottom: '30px' }} className={styles.bodyText}>
+            <Typography variant="body1" className={styles.bodyText}>
             I started coding when I was 13 with HTML, CSS, and JavaScript, and I was enthralled from day one. In high school, I competed in web development contests and won a few awards.
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '18px', lineHeight: 1.6, marginBottom: '30px' }} className={styles.bodyText}>
+            <Typography variant="body1" className={styles.bodyText}>
             Since then, I've worked on increasingly challenging projects. I've built WordPress sites for real estate companies and created a full e-commerce site from the ground up—handling everything from the design and functionality to creating the logo and working closely with the client to nail their vision.
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '18px', lineHeight: 1.6 }} className={styles.bodyText}>
+            <Typography variant="body1" className={styles.bodyText}>
             Now I work primarily with React, server and serverless systems, and mobile development. At Productive Cloud Solutions, I've gained experience across a wide variety of tech stacks and architectures since every client brings different requirements and challenges.
             </Typography>
           </div>
@@ -193,60 +205,74 @@ const ExperienceSection = () => {
         <div className={styles.spacer}></div>
         <Typography
           variant="body1"
-          sx={{
-            fontSize: '20px',
-            lineHeight: 1.6,
-            textAlign: 'right',
-            marginBottom: '20px',
-            '@media (max-width:1300px)': {
-              display: 'none'
-            }
-          }}
+          className={styles.scrollContinueText}
         >
           SCROLL/DRAG TO CONTINUE
         </Typography>
-      </Box>
+      </div>
 
       <Dialog 
         open={open} 
         onClose={() => setOpen(false)}
         maxWidth="md"
         fullWidth
+        fullScreen={isFullScreen}
+        classes={{
+          paper: styles.dialogPaper
+        }}
       >
-        <DialogTitle>
-          <Typography variant="h2" sx={{ fontSize: '30px', lineHeight: 1.6 }}>{selectedProject.name}</Typography>
+        <DialogTitle className={styles.dialogTitle}>
+          <div className={styles.dialogTitleHeader}>
+            <Typography 
+              variant="h2" 
+              className={styles.dialogTitleText}
+            >
+              {selectedProject.name}
+            </Typography>
+            {isFullScreen && (
+              <IconButton
+                className={styles.closeButton}
+                onClick={() => setOpen(false)}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+            )}
+          </div>
         </DialogTitle>
-        <DialogContent sx={{ height: '63vh', minWidth: '600px' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px' }}>
-            <img src={selectedProject.images[0]} style={{ width: '80%', alignSelf: 'center', height: '80%', objectFit: 'contain', padding: '10px' }} alt={selectedProject.name}  />
-            <Typography variant="body1" sx={{ fontSize: '20px', lineHeight: 1.6 }}>
+        <DialogContent className={styles.dialogContent}>
+          <div className={styles.dialogContentBox}>
+            <div className={styles.imageContainer}>
+              <img 
+                src={selectedProject.images[0]} 
+                className={styles.dialogImage}
+                alt={selectedProject.name}  
+              />
+            </div>
+            <Typography 
+              variant="body1" 
+              className={styles.dialogDescription}
+            >
               {selectedProject.description}
             </Typography>
-          {selectedProject.link !== '' && <Box sx={{ marginTop: '20px', float: 'left' }}>
-            <a
-              href={selectedProject.link || '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: 'none' }}
-            >
-              <button
-                style={{
-                  padding: '10px 24px',
-                  fontSize: '16px',
-                  backgroundColor: '#2f86c0',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: selectedProject.link ? 'pointer' : 'not-allowed',
-                  opacity: selectedProject.link ? 1 : 0.6
-                }}
-                disabled={!selectedProject.link}
-              >
-                Visit Website
-              </button>
-            </a>
-          </Box>}
-          </Box>
+            {selectedProject.link !== '' && (
+              <div className={styles.buttonContainer}>
+                <a
+                  href={selectedProject.link || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <button
+                    className={styles.visitButton}
+                    disabled={!selectedProject.link}
+                  >
+                    Visit Website
+                  </button>
+                </a>
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
