@@ -4,6 +4,7 @@
     background-color: #ecefef;
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
     align-items: center;
     scroll-snap-align: start; /* Snap to the start of this section */
 }
@@ -24,7 +25,6 @@
     max-width: 794px;
     min-width: 300px;
     width: clamp(300px, 60vw, 794px);
-    height: 100%;
     aspect-ratio: 1/1.414;
     margin-top: 80px;
     background-color: #fff;
@@ -39,11 +39,12 @@
         width: 100%;
         min-height: 100vh;
         height: auto;
+        background-color: #fff;
         overflow-y: visible;
     }
 
     .paper {
-        width: clamp(300px, 90vw, 500px);
-        margin-top: 40px;
+        border: none;
+
     }
 }
