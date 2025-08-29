@@ -10,7 +10,7 @@ const TYPING_TEXT = `GOALS
 ---------
 Throughout my career, I've deliberately sought diverse experiences with different companies to build a strong foundation and gain versatility as a developer. These experiences have been invaluable in teaching me to wear multiple hats, adapt quickly, and deliver solutions with limited resources.
 
-Now, I'm ready to step into a larger organization where I can learn more enterprise-level development practices, contribute to products that impact millions of users, and collaborate with world-class engineering teams.
+Now, I'm ready to step into a larger organization where I can learn more enterprise-level development practices, contribute to products that impact millions of users, and collaborate with new engineering teams.
 
 SCROLL TO CONTINUE
 
@@ -79,7 +79,7 @@ const Word = () => {
       >
         <img src={wordHeader} alt="wordHeader" className={styles.wordHeader} />
         <div className={styles.paper}>
-          <TypingEffect text={TYPING_TEXT} speed={25} />
+          <TypingEffect text={TYPING_TEXT} speed={22} />
         </div>
         <img src={wordFooter} alt="wordPages" className={styles.wordFooter} />
         

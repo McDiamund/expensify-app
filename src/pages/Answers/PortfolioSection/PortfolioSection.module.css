@@ -48,3 +48,48 @@
         font-size: 1.5vw !important;
     }
 }
+
+@media (max-width: 950px) {
+    .container {
+        min-width: 100%;
+        width: 100%;
+        min-height: 100vh;
+        height: auto;
+        overflow-y: visible;
+        flex-direction: column;
+    }
+
+    .content {
+        width: 100%;
+        height: auto;
+        order: 2;
+        padding: 30px 40px;
+    }
+
+    .contentImage {
+        width: 100%;
+        height: 60vh;
+        order: 1;
+        padding: 20px 40px;
+    }
+
+    .roadworkImage {
+        margin-left: -5%;
+        rotate: -15deg;
+    }
+
+    .imageContainer {
+        width: 100%;
+        height: 100%;
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+    .homeCardTitle {
+        font-size: clamp(2.5rem, 8vw, 4rem) !important;
+    }
+
+    .bodyText {
+        font-size: clamp(1rem, 4vw, 1.2rem) !important;
+    }
+}

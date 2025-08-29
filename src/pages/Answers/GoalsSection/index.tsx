@@ -7,7 +7,7 @@ const GoalsSection = () => {
     <div className={styles.container}>
       <img src={wordHeader} alt="wordHeader" className={styles.wordHeader} />
       <div className={styles.paper}></div>
-      <img src={wordFooter} alt="wordPages" className={styles.wordFooter} />
+      {/* <img src={wordFooter} alt="wordPages" className={styles.wordFooter} /> */}
     </div>
   )
 }

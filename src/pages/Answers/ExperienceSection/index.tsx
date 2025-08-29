@@ -190,7 +190,7 @@ const ExperienceSection = () => {
             </div>
           </div>
         </div>
-        <div style={{ flex: 1 }}></div>
+        <div className={styles.spacer}></div>
         <Typography
           variant="body1"
           sx={{

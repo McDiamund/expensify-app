@@ -61,6 +61,11 @@
     font-size: clamp(0.625rem, 3vw, 0.875rem); /* 10px to 14px on mobile */
     letter-spacing: clamp(0.5px, 0.3vw, 2px);
   }
+
+  .socialIcons {
+    position: absolute;
+    bottom: 100px;
+  }
 }
 
 /* Social icons responsive styling */

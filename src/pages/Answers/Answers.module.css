@@ -49,4 +49,19 @@
 .verticalPageContainer::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-  
+
+/* Responsive design for mobile/tablet - vertical scrolling */
+@media (max-width: 950px) {
+  .magazineContainer {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .magazineContainer.dragging {
+    scroll-snap-type: none;
+  }
+}

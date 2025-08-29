@@ -12,9 +12,24 @@ const Answers = () => {
     const lastWheelTimeRef = useRef<number>(0);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
+    const [startY, setStartY] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
+    const [scrollTop, setScrollTop] = useState(0);
     const [showVerticalPage, setShowVerticalPage] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const navigate = useNavigate();
+    // Detect if we're in mobile mode (screen width <= 950px)
+    useEffect(() => {
+      const checkScreenSize = () => {
+        setIsMobile(window.innerWidth <= 950);
+      };
+
+      checkScreenSize(); // Check initially
+      window.addEventListener('resize', checkScreenSize);
+      
+      return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+
     // Scroll to top when vertical page is shown
     useEffect(() => {
       if (showVerticalPage) {
@@ -24,9 +39,26 @@ const Answers = () => {
     }, [showVerticalPage]);
 
     const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-      // Check if we're at the last section and should show vertical page
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current;
+      if (!scrollContainerRef.current) return;
+
+      const container = scrollContainerRef.current;
+
+      if (isMobile) {
+        // Mobile: vertical scrolling behavior
+        const scrollTop = container.scrollTop;
+        const containerHeight = container.clientHeight;
+        const scrollHeight = container.scrollHeight;
+        
+        // If we're at or very close to the end (last section), show vertical page
+        if (scrollTop + containerHeight >= scrollHeight - 10) {
+          setShowVerticalPage(true);
+          return;
+        }
+
+        // Allow natural vertical scrolling on mobile
+        return;
+      } else {
+        // Desktop: horizontal scrolling behavior (existing logic)
         const scrollLeft = container.scrollLeft;
         const containerWidth = container.clientWidth;
         const scrollWidth = container.scrollWidth;
@@ -36,29 +68,26 @@ const Answers = () => {
           setShowVerticalPage(true);
           return;
         }
-      }
 
-      // Convert vertical scroll to horizontal movement
-      e.preventDefault();
-      
-      const now = Date.now();
-      const timeSinceLastWheel = now - lastWheelTimeRef.current;
-      
-      // Throttle wheel events to prevent overwhelming the scroll
-      if (timeSinceLastWheel < 50) { // Increased throttle for better snap behavior
-        return;
-      }
-      
-      lastWheelTimeRef.current = now;
-      
-      if (scrollContainerRef.current && animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current;
-        const sectionWidth = container.clientWidth; // Each section is 100vw
-        const currentSection = Math.round(container.scrollLeft / sectionWidth);
+        // Convert vertical scroll to horizontal movement
+        e.preventDefault();
+        
+        const now = Date.now();
+        const timeSinceLastWheel = now - lastWheelTimeRef.current;
+        
+        // Throttle wheel events to prevent overwhelming the scroll
+        if (timeSinceLastWheel < 50) { // Increased throttle for better snap behavior
+          return;
+        }
+        
+        lastWheelTimeRef.current = now;
+        
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+        }
+        
+        const sectionWidth = containerWidth; // Each section is 100vw
+        const currentSection = Math.round(scrollLeft / sectionWidth);
         
         // Determine scroll direction and target section
         let targetSection = currentSection;
@@ -79,28 +108,42 @@ const Answers = () => {
           });
         }
       }
-    }, []);
+    }, [isMobile]);
 
     const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
       console.log('Mouse down - setting dragging to true');
       setIsDragging(true);
-      setStartX(e.pageX - (scrollContainerRef.current?.offsetLeft || 0));
-      setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
+      
+      if (isMobile) {
+        // Mobile: vertical dragging
+        setStartY(e.pageY - (scrollContainerRef.current?.offsetTop || 0));
+        setScrollTop(scrollContainerRef.current?.scrollTop || 0);
+      } else {
+        // Desktop: horizontal dragging
+        setStartX(e.pageX - (scrollContainerRef.current?.offsetLeft || 0));
+        setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
+      }
       
       // Hide cursor at document level
       document.body.style.cursor = 'none';
-    }, []);
+    }, [isMobile]);
 
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isDragging) return;
+      if (!isDragging || !scrollContainerRef.current) return;
       e.preventDefault();
       
-      if (scrollContainerRef.current) {
+      if (isMobile) {
+        // Mobile: vertical dragging
+        const y = e.pageY - (scrollContainerRef.current.offsetTop || 0);
+        const walk = (y - startY) * 2; // Scroll speed multiplier
+        scrollContainerRef.current.scrollTop = scrollTop - walk;
+      } else {
+        // Desktop: horizontal dragging
         const x = e.pageX - (scrollContainerRef.current.offsetLeft || 0);
         const walk = (x - startX) * 2; // Scroll speed multiplier
         scrollContainerRef.current.scrollLeft = scrollLeft - walk;
       }
-    }, [isDragging, startX, scrollLeft]);
+    }, [isDragging, startX, startY, scrollLeft, scrollTop, isMobile]);
 
     const handleMouseUp = useCallback(() => {
       console.log('Mouse up - setting dragging to false');
