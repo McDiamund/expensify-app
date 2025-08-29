@@ -1,0 +1,99 @@
+.homeCard {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  box-sizing: border-box;
+  padding: clamp(20px, 8vw, 100px);
+  background: url('@/assets/images/paper.jpg') no-repeat center center;
+  background-size: cover;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .homeCard {
+    padding: clamp(15px, 5vw, 40px);
+    justify-content: space-between;
+    padding-top: clamp(40px, 10vh, 80px);
+    padding-bottom: clamp(40px, 10vh, 80px);
+  }
+}
+
+@media (max-width: 480px) {
+  .homeCard {
+    padding: clamp(10px, 4vw, 20px);
+  }
+}
+
+.homeCardTitle {
+  font-size: clamp(4rem, 12vw, 8rem) !important; /* 64px to 192px */
+  font-family: 'Outfit';
+  line-height: 1.1;
+}
+
+.homeCardSubtitle {
+  font-size: clamp(0.875rem, 1.6vw, 1.5rem); /* 14px to 24px */
+  font-family: 'Roboto';
+  padding-left: clamp(5px, 1vw, 10px);
+  letter-spacing: clamp(2px, 1vw, 10px);
+  line-height: 1.4;
+}
+
+/* Responsive typography adjustments */
+@media (max-width: 768px) {
+  .homeCardTitle {
+    font-size: clamp(3rem, 10vw, 5rem); /* 48px to 80px on tablets */
+  }
+  
+  .homeCardSubtitle {
+    font-size: clamp(0.75rem, 2.5vw, 1.125rem); /* 12px to 18px on tablets */
+    letter-spacing: clamp(1px, 0.5vw, 5px);
+  }
+}
+
+@media (max-width: 480px) {
+  .homeCardTitle {
+    font-size: clamp(2.5rem, 12vw, 4rem); /* 40px to 64px on mobile */
+  }
+  
+  .homeCardSubtitle {
+    font-size: clamp(0.625rem, 3vw, 0.875rem); /* 10px to 14px on mobile */
+    letter-spacing: clamp(0.5px, 0.3vw, 2px);
+  }
+}
+
+/* Social icons responsive styling */
+.socialIcons {
+  display: flex;
+  gap: clamp(10px, 2vw, 20px);
+  align-items: center;
+  margin-top: clamp(10px, 2vh, 20px);
+}
+
+.socialIcon {
+  transition: transform 0.2s ease;
+}
+
+.socialIcon:hover {
+  transform: scale(1.1);
+}
+
+/* SEE MORE button responsive styling */
+.seeMoreButton {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: clamp(20px, 5vh, 50px);
+  cursor: none;
+}
+
+/* Magazine Layout Styles */
+.aboutContainer {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: url('@/assets/images/paper.jpg') no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
+}

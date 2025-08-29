@@ -1,0 +1,52 @@
+.magazineContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden; /* Hidden by default */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory; /* Enable horizontal scroll snapping */
+  user-select: none; /* Prevent text selection while dragging */
+  padding: 0;
+}
+
+.magazineContainer.dragging {
+  cursor: none !important; /* Hide cursor while dragging with !important to ensure it overrides */
+  scroll-behavior: auto; /* Disable smooth scrolling while dragging for better performance */
+  scroll-snap-type: none; /* Disable scroll snapping while dragging */
+}
+
+.magazineContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Vertical page container for the detailed experience view */
+.verticalPageContainer {
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  background: white;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.verticalPageContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.verticalPageContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.verticalPageContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.verticalPageContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+  

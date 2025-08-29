@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('@/assets/fonts/Outfit-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('@/assets/fonts/Roboto_Condensed-Regular.ttf') format('truetype');
+}
+
+/* Custom cursor styles */
+body {
+    cursor: none;
+}
+
+.custom-cursor {
+    position: fixed;
+    width: 35px;
+    height: 35px;
+    background: rgba(206, 30, 59, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.15s ease, height 0.15s ease, background 0.15s ease;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.custom-cursor.hover {
+    width: 40px;
+    height: 40px;
+    background: rgba(177, 177, 177, 0.6);
+}
+
+.custom-cursor.link {
+    width: 40px;
+    height: 40px;
+    background: rgba(177, 177, 177, 0.6);
+}
+
+/* Hide default cursor on clickable elements */
+a, button, [role="button"], .clickable {
+    cursor: none;
+}
+
+/* Cursor expansion overlay */
+.cursor-expansion-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    pointer-events: none;
+}

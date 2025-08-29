@@ -1,0 +1,148 @@
+.container {
+    width: 100%;
+    background-color: #ecefef;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wordHeader {
+    width: 100%;
+    position: fixed;
+    justify-self: center;
+    border-bottom: 1px solid #cecece;
+}
+
+.paper {
+    max-width: 794px;
+    min-width: 300px;
+    width: clamp(300px, 60vw, 794px);
+    margin-bottom: 1000px;
+    aspect-ratio: 1/1.414;
+    background-color: #fff;
+    border: 1px solid #cecece;
+    margin-top: 150px;
+    padding: 40px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.typingContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.typingText {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Text styling classes */
+.typingText .title-large {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+    color: #1a1a1a;
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+}
+
+.typingText .title-medium {
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 15px 0 8px 0;
+    color: #2a2a2a;
+}
+
+.typingText .bold-text {
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.typingText .italic-text {
+    font-style: italic;
+    color: #555;
+}
+
+.typingText .underline-text {
+    text-decoration: underline;
+    color: #444;
+}
+
+.typingText .small-text {
+    font-size: 14px;
+    color: #666;
+}
+
+.typingText .large-text {
+    font-size: 20px;
+    color: #222;
+}
+
+.cursor {
+    color: #333;
+    font-weight: bold;
+    animation: blink 1s infinite;
+}
+
+.cursorVisible {
+    opacity: 1;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.wordCount {
+    flex: 1;
+    background-color: #f4f4f5;
+    border-top: 1px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wordFooter {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+.scrollProgress {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.scrollProgress:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+
